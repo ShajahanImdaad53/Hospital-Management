@@ -1,5 +1,7 @@
 # 🏥 NexusHealth - Clinical Management System
 
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen.svg?style=for-the-badge)](#)
+
 A modern, full-featured clinical management system built with Spring Boot 4.0.5 and Java 25. Manage appointments, consultations, doctors, patients, and pharmacist operations efficiently.
 
 ---
