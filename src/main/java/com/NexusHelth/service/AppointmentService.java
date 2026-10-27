@@ -789,7 +789,11 @@ public class AppointmentService {
             // Always read the latest persisted fee from DB so new invoices reflect receptionist updates.
             double effectiveFee = appointmentFee;
             try (Statement stmt = conn.createStatement()) {
-                stmt.executeUpdate("INSERT OR IGNORE INTO clinic_settings (id, appointment_fee) VALUES (1, 500.0)");
+                try (ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM clinic_settings WHERE id = 1")) {
+                    if (rs.next() && rs.getInt(1) == 0) {
+                        stmt.executeUpdate("INSERT INTO clinic_settings (id, appointment_fee) VALUES (1, 500.0)");
+                    }
+                }
                 stmt.executeUpdate("UPDATE clinic_settings SET appointment_fee = 500.0 WHERE id = 1 AND (appointment_fee IS NULL OR appointment_fee <= 0)");
             } catch (Exception ignored) {
                 // Best-effort safety net; DatabaseInitializer/ClinicSettingsService also ensure defaults.

@@ -79,13 +79,20 @@ public class ReportsService {
         return reports;
     }
 
+    private String getDateCondition(String column) {
+        if (DatabaseConnection.isPostgres()) {
+            return "to_char(" + column + ", 'YYYY-MM-DD') = ?";
+        }
+        return "strftime('%Y-%m-%d', " + column + ") = ?";
+    }
+
     /**
      * Calculate daily revenue from transactions
      */
     private Double getDailyRevenue(LocalDate date) {
         String dateStr = date.toString(); // yyyy-MM-dd
         String query = "SELECT SUM(amount) as total_revenue FROM transactions " +
-                      "WHERE strftime('%Y-%m-%d', transacted_at) = ? AND status = 'settled'";
+                      "WHERE " + getDateCondition("transacted_at") + " AND status = 'settled'";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -117,7 +124,7 @@ public class ReportsService {
     private Double getPharmacySales(LocalDate date) {
         String dateStr = date.toString(); // yyyy-MM-dd
         String query = "SELECT SUM(pharmacy_addons) as total_pharmacy FROM invoices " +
-                      "WHERE strftime('%Y-%m-%d', created_at) = ? AND status = 'paid'";
+                      "WHERE " + getDateCondition("created_at") + " AND status = 'paid'";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -149,7 +156,7 @@ public class ReportsService {
     private Integer getTotalPatientsVisited(LocalDate date) {
         String dateStr = date.toString(); // yyyy-MM-dd
         String query = "SELECT COUNT(DISTINCT patient_id) as total_patients FROM appointments " +
-                      "WHERE strftime('%Y-%m-%d', appointment_date) = ? AND status IN ('completed', 'confirmed')";
+                      "WHERE " + getDateCondition("appointment_date") + " AND status IN ('completed', 'confirmed')";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -179,7 +186,7 @@ public class ReportsService {
         List<TransactionDTO> transactions = new ArrayList<>();
         String query = "SELECT id, transaction_code, type, department, amount, status, transacted_at " +
                       "FROM transactions " +
-                      "WHERE strftime('%Y-%m-%d', transacted_at) = ? " +
+                      "WHERE " + getDateCondition("transacted_at") + " " +
                       "ORDER BY transacted_at DESC";
 
         try (Connection conn = DatabaseConnection.getConnection();

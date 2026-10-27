@@ -126,6 +126,42 @@ A modern, full-featured clinical management system built with Spring Boot 4.0.5 
 
 ---
 
+## 🌐 100% Free Cloud Deployment
+
+This project is fully dockerized and cloud-ready for free hosting on **Render**, **Google Cloud Run**, or **Koyeb**.
+
+### Option A: Git Deployment on Render (Recommended - Free Forever)
+
+1. **Push your repository** to GitHub:
+   ```bash
+   git add .
+   git commit -m "feat: add cloud deployment and dual DB support"
+   git push origin Final
+   ```
+2. Go to [Render.com](https://render.com) and sign in with GitHub.
+3. Click **New +** → **Web Service**.
+4. Select your `Hospital-Management` repository.
+5. Configure:
+   - **Environment**: `Docker`
+   - **Branch**: `Final`
+   - **Plan**: `Free`
+6. Click **Deploy Web Service**! Render builds the container and gives you a live public HTTPS URL (e.g. `https://nexushealth-clinic.onrender.com`).
+
+---
+
+### Option B: Cloud Database (Optional Persistent PostgreSQL)
+
+The application automatically runs on **embedded SQLite** by default with zero configuration needed. If you want a permanent cloud database that never resets across restarts:
+
+1. Create a free PostgreSQL database on [Neon.tech](https://neon.tech) or [Supabase.com](https://supabase.com) (100% free, no credit card required).
+2. Copy the connection string (e.g., `postgres://user:password@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require`).
+3. In Render Web Service settings → **Environment**, add:
+   - **Key**: `DATABASE_URL`
+   - **Value**: `postgres://...`
+4. The application automatically detects PostgreSQL, initializes `schema-postgres.sql`, creates the default admin, and stores all records in your cloud DB!
+
+---
+
 ## 📊 Build & Test
 
 ### Clean Build

@@ -26,11 +26,12 @@ public class DatabaseInitializer implements CommandLineRunner {
                 System.err.println("⚠️  Could not drop deprecated table 'specializations': " + e.getMessage());
             }
             
-            // Read schema.sql from classpath (works both in development and JAR)
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("schema.sql");
+            // Read schema file from classpath (schema-postgres.sql for PostgreSQL, schema.sql for SQLite)
+            String schemaFile = DatabaseConnection.isPostgres() ? "schema-postgres.sql" : "schema.sql";
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(schemaFile);
             
             if (inputStream == null) {
-                System.err.println("❌ Error: schema.sql not found in classpath");
+                System.err.println("❌ Error: " + schemaFile + " not found in classpath");
                 return;
             }
             
@@ -124,8 +125,12 @@ public class DatabaseInitializer implements CommandLineRunner {
 
     private void ensureDefaultAppointmentFee(Connection conn) {
         try (Statement stmt = conn.createStatement()) {
-            // Ensure row exists
-            stmt.executeUpdate("INSERT OR IGNORE INTO clinic_settings (id, appointment_fee) VALUES (1, 500.0)");
+            // Ensure row exists in a database-agnostic way
+            try (ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM clinic_settings WHERE id = 1")) {
+                if (rs.next() && rs.getInt(1) == 0) {
+                    stmt.executeUpdate("INSERT INTO clinic_settings (id, appointment_fee) VALUES (1, 500.0)");
+                }
+            }
             // Ensure value is valid
             stmt.executeUpdate("UPDATE clinic_settings SET appointment_fee = 500.0 WHERE id = 1 AND (appointment_fee IS NULL OR appointment_fee <= 0)");
         } catch (Exception e) {

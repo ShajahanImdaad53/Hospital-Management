@@ -1,0 +1,16 @@
+.git
+.gitignore
+.gitattributes
+.vscode
+.idea
+.kilo
+*.log
+clinic.db*
+*.db
+*.sqlite
+target/
+build/
+README.md
+*.md
+APPOINTMENT_BOOKING_PROMPT_FINAL.md
+insert-test-data.sql

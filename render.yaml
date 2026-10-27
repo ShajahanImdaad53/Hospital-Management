@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: nexushealth-clinic
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 10000

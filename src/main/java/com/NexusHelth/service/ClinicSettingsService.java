@@ -94,7 +94,11 @@ public class ClinicSettingsService {
 
     private void ensureDefaults(Connection conn) {
         try (Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate("INSERT OR IGNORE INTO clinic_settings (id, appointment_fee) VALUES (1, " + DEFAULT_APPOINTMENT_FEE + ")");
+            try (ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM clinic_settings WHERE id = 1")) {
+                if (rs.next() && rs.getInt(1) == 0) {
+                    stmt.executeUpdate("INSERT INTO clinic_settings (id, appointment_fee) VALUES (1, " + DEFAULT_APPOINTMENT_FEE + ")");
+                }
+            }
             stmt.executeUpdate("UPDATE clinic_settings SET appointment_fee = " + DEFAULT_APPOINTMENT_FEE + " WHERE id = 1 AND (appointment_fee IS NULL OR appointment_fee <= 0)");
         } catch (Exception ignored) {
             // DatabaseInitializer also ensures this; keep this as a safety net.
