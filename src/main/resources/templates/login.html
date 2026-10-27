@@ -92,19 +92,48 @@
                 </form>
 
                 <div class="login-divider" role="presentation">
-                    <span>or continue with</span>
+                    <span>⚡ Quick Demo Login</span>
                 </div>
 
-                <div class="login-social-row">
-                    <button type="button" class="btn btn-outline login-social-btn">
-                        <span class="material-symbols-outlined" aria-hidden="true">badge</span>
-                        Staff SSO
+                <div class="login-demo-grid">
+                    <button type="button" class="btn btn-outline demo-role-btn" onclick="fillCredentials('admin@clinic.com', 'Admin@123')" title="System Administrator">
+                        <span class="material-symbols-outlined" style="color: #6366f1;">shield_person</span>
+                        <span>Admin</span>
                     </button>
-                    <button type="button" class="btn btn-outline login-social-btn">
-                        <span class="material-symbols-outlined" aria-hidden="true">shield_lock</span>
-                        Patient Portal
+                    <button type="button" class="btn btn-outline demo-role-btn" onclick="fillCredentials('doctor@clinic.com', 'Doctor@123')" title="Dr. Sarah Jenkins">
+                        <span class="material-symbols-outlined" style="color: #0284c7;">stethoscope</span>
+                        <span>Doctor</span>
+                    </button>
+                    <button type="button" class="btn btn-outline demo-role-btn" onclick="fillCredentials('receptionist@clinic.com', 'Receptionist@123')" title="Emily Watson">
+                        <span class="material-symbols-outlined" style="color: #0d9488;">calendar_month</span>
+                        <span>Receptionist</span>
+                    </button>
+                    <button type="button" class="btn btn-outline demo-role-btn" onclick="fillCredentials('pharmacist@clinic.com', 'Pharmacist@123')" title="James Miller">
+                        <span class="material-symbols-outlined" style="color: #16a34a;">medication</span>
+                        <span>Pharmacist</span>
+                    </button>
+                    <button type="button" class="btn btn-outline demo-role-btn" onclick="fillCredentials('patient@clinic.com', 'Patient@123')" title="John Doe">
+                        <span class="material-symbols-outlined" style="color: #ea580c;">person</span>
+                        <span>Patient</span>
                     </button>
                 </div>
+
+                <script>
+                    function fillCredentials(email, password) {
+                        const emailInput = document.getElementById('email');
+                        const passInput = document.getElementById('password');
+                        if (emailInput && passInput) {
+                            emailInput.value = email;
+                            passInput.value = password;
+                            emailInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            passInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            const submitBtn = document.querySelector('.login-submit');
+                            if (submitBtn) {
+                                submitBtn.focus();
+                            }
+                        }
+                    }
+                </script>
 
                 <p class="login-bottom-text">Need help getting started? <a class="login-link" href="/contact">Contact support</a></p>
             </article>

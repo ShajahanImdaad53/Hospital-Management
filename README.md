@@ -61,7 +61,16 @@ A modern, full-featured clinical management system built with Spring Boot 4.0.5 
 
 4. **Access the application**:
    - Open your browser and navigate to: **http://localhost:8081**
-   - Login with admin credentials or create a new account
+   - Click any button in the **Quick Demo Login** panel on the sign-in page, or log in manually with:
+
+| Role | Email | Password | Description |
+| :--- | :--- | :--- | :--- |
+| **👑 Admin** | `admin@clinic.com` | `Admin@123` | System settings, staff & user management |
+| **👨‍⚕️ Doctor** | `doctor@clinic.com` | `Doctor@123` | Dr. Sarah Jenkins (Cardiology queue & consults) |
+| **👨‍⚕️ Doctor 2** | `chang@clinic.com` | `Doctor@123` | Dr. Michael Chang (Neurology appointments) |
+| **📋 Receptionist** | `receptionist@clinic.com` | `Receptionist@123` | Emily Watson (Front desk, billing & appointments) |
+| **💊 Pharmacist** | `pharmacist@clinic.com` | `Pharmacist@123` | James Miller (Inventory & dispensations) |
+| **🧑‍🦱 Patient** | `patient@clinic.com` | `Patient@123` | John Doe (Appointment booking & receipts) |
 
 ---
 

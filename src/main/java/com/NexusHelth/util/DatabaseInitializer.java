@@ -75,6 +75,9 @@ public class DatabaseInitializer implements CommandLineRunner {
             // Initialize default admin account
             AdminInitializer.initializeAdminAccount();
 
+            // Initialize comprehensive demonstration data across all user roles
+            DemoDataInitializer.initializeDemoData();
+
             // Backfill missing transactions for already-paid invoices
             backfillMissingTransactions(conn);
         } catch (Exception e) {

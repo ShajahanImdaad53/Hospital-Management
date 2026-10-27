@@ -37,4 +37,13 @@ clinic.db
 *.db
 *.sqlite
 
+### Logs ###
+*.log
+app.log
+
+### AI Tools & Scratchpads ###
+.kilo/
+APPOINTMENT_BOOKING_PROMPT_FINAL.md
+insert-test-data.sql
+
 
